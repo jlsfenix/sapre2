@@ -55,6 +55,7 @@ export default function Login({
 							autoComplete: "username",
 							autoFocus: true,
 							onChange: (e) => setData("email", e.target.value),
+							required: true,
 						}}
 						errorMessage={errors.email}
 					/>
@@ -72,6 +73,7 @@ export default function Login({
 							autoComplete: "current-password",
 							onChange: (e) =>
 								setData("password", e.target.value),
+							required: true,
 						}}
 						errorMessage={errors.password}
 					/>
