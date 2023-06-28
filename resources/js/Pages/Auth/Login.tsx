@@ -69,7 +69,7 @@ export default function Login({
 						inputProps={{
 							type: "password",
 							name: "password",
-							value: data.email,
+							value: data.password,
 							placeholder: "ej: 12345678",
 							autoComplete: "current-password",
 							onChange: (e) =>
@@ -79,7 +79,7 @@ export default function Login({
 					/>
 				</div>
 
-				<div className="flex items-center justify-between">
+				<div className="flex flex-col-reverse gap-4 sm:flex-row sm:items-center sm:justify-between">
 					<CheckboxField
 						id="remember"
 						labelProps={{
