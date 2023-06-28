@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import InputError from "./input-error";
+import InputError from "./InputError";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 

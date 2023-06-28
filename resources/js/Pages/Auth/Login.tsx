@@ -1,10 +1,8 @@
 import { useEffect, FormEventHandler } from "react";
-import Checkbox from "@/Components/Checkbox";
 import GuestLayout from "@/Layouts/GuestLayout";
-import PrimaryButton from "@/Components/PrimaryButton";
 import { Head, Link, useForm } from "@inertiajs/react";
-import TextField from "@/Components/text-field";
-import CheckboxField from "@/Components/checkbox-field";
+import TextField from "@/Components/TextField";
+import CheckboxField from "@/Components/CheckboxField";
 import { Button } from "@/Components/ui/button";
 
 export default function Login({

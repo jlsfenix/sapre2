@@ -2,7 +2,7 @@ import type { CheckboxProps } from "@radix-ui/react-checkbox";
 import type { ComponentPropsWithoutRef } from "react";
 
 import { cn } from "@/lib/utils";
-import InputError from "./input-error";
+import InputError from "./InputError";
 import { Label } from "./ui/label";
 import { Checkbox } from "./ui/checkbox";
 
