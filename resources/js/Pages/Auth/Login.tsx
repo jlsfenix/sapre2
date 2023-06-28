@@ -95,12 +95,11 @@ export default function Login({
 					/>
 
 					{canResetPassword && (
-						<Link
-							href={route("password.request")}
-							className="underline text-sm text-slate-600 hover:text-slate-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-						>
-							¿Olvidaste tu contraseña?
-						</Link>
+						<Button className="w-fit" variant="link">
+							<Link href={route("password.request")}>
+								¿Olvidaste tu contraseña?
+							</Link>
+						</Button>
 					)}
 				</div>
 
