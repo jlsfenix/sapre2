@@ -32,7 +32,7 @@ export default function Login({
 
 	return (
 		<GuestLayout>
-			<Head title="Log in" />
+			<Head title="Inicio de Sesión" />
 
 			{status && (
 				<div className="mb-4 font-medium text-sm text-green-600">
