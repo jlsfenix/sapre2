@@ -43,6 +43,7 @@ export default function ForgotPassword({ status }: { status?: string }) {
 						name: "email",
 						type: "email",
 						value: data.email,
+						placeholder: "ej: johndoe@gmail.com",
 						autoFocus: true,
 						onChange: (e) => setData("email", e.target.value),
 					}}
