@@ -95,7 +95,7 @@ export default function Login({
 					/>
 
 					{canResetPassword && (
-						<Button className="w-fit" variant="link">
+						<Button asChild className="w-fit" variant="link">
 							<Link href={route("password.request")}>
 								¿Olvidaste tu contraseña?
 							</Link>
