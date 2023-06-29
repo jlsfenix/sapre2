@@ -1,19 +1,21 @@
 import { useRef, FormEventHandler } from "react";
-import InputError from "@/Components/InputError";
-import InputLabel from "@/Components/InputLabel";
-import PrimaryButton from "@/Components/PrimaryButton";
-import TextInput from "@/Components/TextInput";
 import { useForm } from "@inertiajs/react";
 import { Transition } from "@headlessui/react";
+import {
+	Card,
+	CardContent,
+	CardDescription,
+	CardHeader,
+	CardTitle,
+} from "@/Components/ui/card";
+import TextField from "@/Components/TextField";
+import { Button } from "@/Components/ui/button";
 
 export default function UpdatePasswordForm({
 	className = "",
 }: {
 	className?: string;
 }) {
-	const passwordInput = useRef<HTMLInputElement>();
-	const currentPasswordInput = useRef<HTMLInputElement>();
-
 	const {
 		data,
 		setData,
@@ -34,110 +36,83 @@ export default function UpdatePasswordForm({
 		put(route("password.update"), {
 			preserveScroll: true,
 			onSuccess: () => reset(),
-			onError: (errors) => {
-				if (errors.password) {
-					reset("password", "password_confirmation");
-					passwordInput.current?.focus();
-				}
-
-				if (errors.current_password) {
-					reset("current_password");
-					currentPasswordInput.current?.focus();
-				}
-			},
 		});
 	};
 
 	return (
-		<section className={className}>
-			<header>
-				<h2 className="text-lg font-medium text-gray-900">
-					Update Password
-				</h2>
+		<Card className={className}>
+			<CardHeader>
+				<CardTitle>Actualizar Contraseña</CardTitle>
 
-				<p className="mt-1 text-sm text-gray-600">
-					Ensure your account is using a long, random password to stay
-					secure.
-				</p>
-			</header>
+				<CardDescription>
+					Asegurate que tu cuenta utilice una contraseña larga y
+					aleatoria para mantenerte seguro.
+				</CardDescription>
+			</CardHeader>
 
-			<form onSubmit={updatePassword} className="mt-6 space-y-6">
-				<div>
-					<InputLabel
-						htmlFor="current_password"
-						value="Current Password"
-					/>
+			<CardContent>
+				<form onSubmit={updatePassword} className="space-y-6">
+					<div className="space-y-4">
+						<TextField
+							id="current_password"
+							labelProps={{ children: "Contraseña Actual" }}
+							inputProps={{
+								name: "current_password",
+								value: data.current_password,
+								onChange: (e) =>
+									setData("current_password", e.target.value),
+								type: "password",
+								autoComplete: "current-password",
+							}}
+							errorMessage={errors.current_password}
+						/>
 
-					<TextInput
-						id="current_password"
-						ref={currentPasswordInput}
-						value={data.current_password}
-						onChange={(e) =>
-							setData("current_password", e.target.value)
-						}
-						type="password"
-						className="mt-1 block w-full"
-						autoComplete="current-password"
-					/>
+						<TextField
+							id="password"
+							labelProps={{ children: "Nueva Contraseña" }}
+							inputProps={{
+								name: "password",
+								type: "password",
+								value: data.password,
+								onChange: (e) =>
+									setData("password", e.target.value),
+								autoComplete: "new-password",
+							}}
+							errorMessage={errors.password}
+						/>
 
-					<InputError
-						message={errors.current_password}
-						className="mt-2"
-					/>
-				</div>
+						<TextField
+							id="password_confirmation"
+							labelProps={{ children: "Confirme la Contraseña" }}
+							inputProps={{
+								name: "password_confirmation",
+								type: "password",
+								value: data.password_confirmation,
+								onChange: (e) =>
+									setData(
+										"password_confirmation",
+										e.target.value
+									),
+								autoComplete: "new-password",
+							}}
+							errorMessage={errors.password_confirmation}
+						/>
+					</div>
 
-				<div>
-					<InputLabel htmlFor="password" value="New Password" />
+					<div className="flex items-center gap-4">
+						<Button disabled={processing}>Guardar</Button>
 
-					<TextInput
-						id="password"
-						ref={passwordInput}
-						value={data.password}
-						onChange={(e) => setData("password", e.target.value)}
-						type="password"
-						className="mt-1 block w-full"
-						autoComplete="new-password"
-					/>
-
-					<InputError message={errors.password} className="mt-2" />
-				</div>
-
-				<div>
-					<InputLabel
-						htmlFor="password_confirmation"
-						value="Confirm Password"
-					/>
-
-					<TextInput
-						id="password_confirmation"
-						value={data.password_confirmation}
-						onChange={(e) =>
-							setData("password_confirmation", e.target.value)
-						}
-						type="password"
-						className="mt-1 block w-full"
-						autoComplete="new-password"
-					/>
-
-					<InputError
-						message={errors.password_confirmation}
-						className="mt-2"
-					/>
-				</div>
-
-				<div className="flex items-center gap-4">
-					<PrimaryButton disabled={processing}>Save</PrimaryButton>
-
-					<Transition
-						show={recentlySuccessful}
-						enterFrom="opacity-0"
-						leaveTo="opacity-0"
-						className="transition ease-in-out"
-					>
-						<p className="text-sm text-gray-600">Saved.</p>
-					</Transition>
-				</div>
-			</form>
-		</section>
+						<Transition
+							show={recentlySuccessful}
+							enterFrom="opacity-0"
+							leaveTo="opacity-0"
+							className="transition ease-in-out"
+						>
+							<p className="text-sm text-slate-600">Guardado.</p>
+						</Transition>
+					</div>
+				</form>
+			</CardContent>
+		</Card>
 	);
 }
