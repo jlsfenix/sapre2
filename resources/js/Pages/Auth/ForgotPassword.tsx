@@ -19,7 +19,7 @@ export default function ForgotPassword({ status }: { status?: string }) {
 	};
 
 	return (
-		<GuestLayout>
+		<GuestLayout title="Olvidé mi Contraseña">
 			<Head title="Contraseña Olvidada" />
 
 			<div className="mb-4 text-sm text-gray-600">

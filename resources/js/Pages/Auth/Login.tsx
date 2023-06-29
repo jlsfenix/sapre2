@@ -31,7 +31,7 @@ export default function Login({
 	};
 
 	return (
-		<GuestLayout>
+		<GuestLayout title="Inicio de Sesión">
 			<Head title="Inicio de Sesión" />
 
 			{status && (

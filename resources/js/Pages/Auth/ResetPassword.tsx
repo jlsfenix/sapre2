@@ -33,7 +33,7 @@ export default function ResetPassword({
 	};
 
 	return (
-		<GuestLayout>
+		<GuestLayout title="Reestablece tu Contraseña">
 			<Head title="Reset Password" />
 
 			<form onSubmit={submit}>
