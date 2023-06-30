@@ -35,7 +35,7 @@ export default function UserNav({ user }: { user: UserType }) {
 					<DropdownMenuSeparator />
 
 					<DropdownMenuItem asChild>
-						<Link href={route("profile.edit")}>
+						<Link method="post" href={route("logout")} as="button">
 							<LogOut className="mr-2 h-4 w-4" />
 
 							<span>Cerrar Sesión</span>
