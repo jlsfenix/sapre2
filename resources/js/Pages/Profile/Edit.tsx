@@ -16,7 +16,7 @@ export default function Edit({
 			user={auth.user}
 			header={<Header title="Perfil" />}
 		>
-			<Head title="Profile" />
+			<Head title="Perfil" />
 
 			<div className="space-y-6">
 				<UpdateProfileInformationForm
