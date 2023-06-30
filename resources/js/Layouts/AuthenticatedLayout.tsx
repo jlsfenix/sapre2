@@ -21,6 +21,10 @@ const links: {
 		title: "Usuarios",
 		href: "users.index",
 	},
+	{
+		title: "Roles",
+		href: "roles.index",
+	},
 ];
 
 function NavBar({
