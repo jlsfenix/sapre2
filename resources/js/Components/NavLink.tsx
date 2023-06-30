@@ -11,10 +11,8 @@ export default function NavLink({
 		<Link
 			{...props}
 			className={cn(
-				"text-sm font-medium transition-colors",
-				active
-					? "text-slate-700"
-					: "text-slate-500 hover:text-gray-700",
+				"text-sm font-medium transition-colors hover:text-primary",
+				active ? "" : "text-muted-foreground",
 				className
 			)}
 		>
