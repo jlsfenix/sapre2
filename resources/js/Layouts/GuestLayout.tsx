@@ -9,7 +9,7 @@ import {
 import { Link } from "@inertiajs/react";
 import type { ReactNode } from "react";
 
-export default function Guest({
+export default function GuestLayout({
 	title,
 	description,
 	children,

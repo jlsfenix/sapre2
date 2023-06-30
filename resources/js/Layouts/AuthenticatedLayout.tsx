@@ -17,6 +17,10 @@ const links: {
 		title: "Dashboard",
 		href: "dashboard",
 	},
+	{
+		title: "Usuarios",
+		href: "users.index",
+	},
 ];
 
 function NavBar({
@@ -95,7 +99,7 @@ function MobileNavBar({
 	);
 }
 
-export default function Authenticated({
+export default function AuthenticatedLayout({
 	user,
 	header,
 	children,
