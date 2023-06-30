@@ -14,7 +14,12 @@ export default function Edit({
 	return (
 		<AuthenticatedLayout
 			user={auth.user}
-			header={<Header title="Perfil" />}
+			header={
+				<Header
+					title="Perfil"
+					description="Administra la información de tu perfil."
+				/>
+			}
 		>
 			<Head title="Perfil" />
 
