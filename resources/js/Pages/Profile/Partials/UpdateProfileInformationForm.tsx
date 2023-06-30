@@ -85,7 +85,7 @@ export default function UpdateProfileInformation({
 					{mustVerifyEmail && user.email_verified_at === null && (
 						<div className="space-y-2">
 							<div className="flex flex-col items-start gap-4 sm:flex-row sm:items-center">
-								<p className="text-slate-800 text-sm">
+								<p className="text-sm text-slate-800">
 									Tu correo electrónico no está verificado
 								</p>
 
@@ -101,7 +101,7 @@ export default function UpdateProfileInformation({
 							</div>
 
 							{status === "verification-link-sent" && (
-								<div className="font-medium text-sm text-green-600">
+								<div className="text-sm font-medium text-green-600">
 									Un nuevo enlace de verificación ha sido
 									enviado a tu correo electrónico.
 								</div>

@@ -72,11 +72,11 @@ function MobileNavBar({
 
 			<div className="border-t border-gray-200 py-4">
 				<div className="px-4">
-					<div className="font-medium text-base text-gray-800">
+					<div className="text-base font-medium text-gray-800">
 						{user.name}
 					</div>
 
-					<div className="font-medium text-sm text-gray-500">
+					<div className="text-sm font-medium text-gray-500">
 						{user.email}
 					</div>
 				</div>
@@ -109,11 +109,11 @@ export default function AuthenticatedLayout({
 
 	return (
 		<div className="min-h-screen bg-white">
-			<nav className="bg-white border-b">
-				<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-					<div className="flex justify-between h-16">
+			<nav className="border-b bg-white">
+				<div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+					<div className="flex h-16 justify-between">
 						<div className="flex gap-6">
-							<div className="shrink-0 flex items-center">
+							<div className="flex shrink-0 items-center">
 								<Link href="/">
 									<ApplicationLogo className="block h-9 w-auto fill-current text-gray-800" />
 								</Link>
@@ -124,8 +124,8 @@ export default function AuthenticatedLayout({
 							</div>
 						</div>
 
-						<div className="hidden sm:flex sm:items-center sm:ml-6">
-							<div className="ml-3 relative">
+						<div className="hidden sm:ml-6 sm:flex sm:items-center">
+							<div className="relative ml-3">
 								<UserNav user={user} />
 							</div>
 						</div>
@@ -161,12 +161,12 @@ export default function AuthenticatedLayout({
 			</nav>
 
 			{header && (
-				<header className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+				<header className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
 					{header}
 				</header>
 			)}
 
-			<main className="max-w-7xl mx-auto mb-6 px-4 sm:px-6 lg:px-8">
+			<main className="mx-auto mb-6 max-w-7xl px-4 sm:px-6 lg:px-8">
 				{children}
 			</main>
 		</div>

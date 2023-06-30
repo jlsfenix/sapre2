@@ -19,10 +19,10 @@ export default function GuestLayout({
 	children: ReactNode | ReactNode[];
 }) {
 	return (
-		<div className="min-h-screen flex flex-col gap-y-6 justify-center items-center p-6 bg-primary-foreground">
+		<div className="flex min-h-screen flex-col items-center justify-center gap-y-6 bg-primary-foreground p-6">
 			<div>
 				<Link href="/">
-					<ApplicationLogo className="w-20 h-20 fill-current text-gray-500" />
+					<ApplicationLogo className="h-20 w-20 fill-current text-gray-500" />
 				</Link>
 			</div>
 

@@ -96,7 +96,7 @@ export default function Register() {
 					/>
 				</div>
 
-				<div className="flex items-center justify-end mt-4">
+				<div className="mt-4 flex items-center justify-end">
 					<Button asChild variant="link">
 						<Link href={route("login")}>¿Ya estas registrado?</Link>
 					</Button>

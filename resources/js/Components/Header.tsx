@@ -8,8 +8,8 @@ export default function Header({
 	actions?: ReactNode;
 }) {
 	return (
-		<header className="flex flex-col gap-4 sm:flex-row sm:justify-between sm:items-center">
-			<h2 className="font-semibold text-2xl text-slate-800 leading-tight">
+		<header className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+			<h2 className="text-2xl font-semibold leading-tight text-slate-800">
 				{title}
 			</h2>
 
