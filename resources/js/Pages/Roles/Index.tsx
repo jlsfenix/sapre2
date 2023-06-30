@@ -26,7 +26,15 @@ export default function Index({
 	roles,
 }: PageProps<{ roles: DisplayRole[] }>) {
 	return (
-		<AuthenticatedLayout user={auth.user} header={<Header title="Roles" />}>
+		<AuthenticatedLayout
+			user={auth.user}
+			header={
+				<Header
+					title="Roles"
+					description="Administra los roles y sus permisos asignados en el sistema."
+				/>
+			}
+		>
 			<Head title="Roles" />
 
 			<DataTable columns={columns} data={roles} />

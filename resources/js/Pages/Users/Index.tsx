@@ -31,7 +31,12 @@ export default function Index({ auth, users }: PageProps<{ users: User[] }>) {
 	return (
 		<AuthenticatedLayout
 			user={auth.user}
-			header={<Header title="Usuarios" />}
+			header={
+				<Header
+					title="Usuarios"
+					description="Administra los usuarios registrados en el sistema."
+				/>
+			}
 		>
 			<Head title="Usuarios" />
 
