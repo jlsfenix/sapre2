@@ -2,63 +2,111 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
-use App\Models\user;
-class PermissionsSeeder extends Seeder
-{
-    /**
-     * Run the database seeds.
-     */
-    public function run(): void
-    {
-        
-        app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
 
-        //Arreglo con permisos
-        $arregloPermisos =[
-            "create users",
-            "view users",
-            "edit users",
-            "delete users",
-            "create roles",
-            "view roles",
-            "edit roles",
-            "delete roles",
-            "request loans",
-            "view loans",
-            "view own loans",
-            "edit loans",
-            "approve or decline loans",
-            "download contracts",
-            "download own contracts",
-            "delete loans",
-            "create payments",
-            "view payments",
-            "view own payments",
-            "edit payments",
-            "approve or decline payments",
-            "delete payments",
-        ];
+class PermissionsSeeder extends Seeder {
+	/**
+	 * Run the database seeds.
+	 */
+	public function run(): void {
+		// Reset cached roles and permissions
+		app()[
+			\Spatie\Permission\PermissionRegistrar::class
+		]->forgetCachedPermissions();
 
-        
-        $permisos= collect($arregloPermisos)->map(function($permisos){
-            return ["name"=>$permisos,"guard_name"=>"web"];
-        });
+		$permissionsNames = [
+			// Users
+			"create users",
+			"view users",
+			"edit users",
+			"delete users",
 
-        Permission::insert($permisos->toArray());
+			// Roles
+			"create roles",
+			"view roles",
+			"edit roles",
+			"delete roles",
 
-        //Se crean los roles y las bases de datos
-       Role::create(["name" => "admin"])->givePermissionTo(Permission::whereNotIn('id',array(11,15,19)));
-       Role::create(["name" => "employee"])->givePermissionTo(['create users','view users', 'view loans', 'download contracts', 'view payments', 'approve or decline payments']);
-       Role::create(["name" => "client"])->givePermissionTo(['view own loans', 'download own contracts', 'create payments', 'view own payments']);
+			// Loans
+			"request loans",
+			"view loans",
+			"view own loans",
+			"edit loans",
+			"approve or decline loans",
+			"download contracts",
+			"download own contracts",
+			"delete loans",
 
-        //Asignar roles a los 3 primeros usuarios
-        user::find(1)->assignRole('admin');
-        user::find(2)->assignRole('employee');
-        user::find(3)->assignRole('client');
-        
-    }
+			// Payments
+			"create payments",
+			"view payments",
+			"view own payments",
+			"edit payments",
+			"approve or decline payments",
+			"delete payments",
+		];
+
+		$permissions = collect($permissionsNames)->map(function ($permission) {
+			return ["name" => $permission, "guard_name" => "web"];
+		});
+
+		// Create permissions
+		Permission::insert($permissions->toArray());
+
+		// Assign permissions to each role
+		Role::create(["name" => "admin"])->givePermissionTo(
+			// Users
+			"create users",
+			"view users",
+			"edit users",
+			"delete users",
+
+			// Roles
+			"create roles",
+			"view roles",
+			"edit roles",
+			"delete roles",
+
+			// Loans
+			"view loans",
+			"edit loans",
+			"approve or decline loans",
+			"download contracts",
+			"delete loans",
+
+			// Payments
+			"view payments",
+			"edit payments",
+			"approve or decline payments",
+			"delete payments"
+		);
+
+		Role::create(["name" => "employee"])->givePermissionTo([
+			// Users
+			"create users",
+			"view users",
+
+			// Loans
+			"view loans",
+			"approve or decline loans",
+			"download contracts",
+
+			// Payments
+			"view payments",
+			"approve or decline payments",
+		]);
+
+		Role::create(["name" => "client"])->givePermissionTo([
+			// Loans
+			"request loans",
+			"view own loans",
+			"download own contracts",
+
+			// Payments
+			"create payments",
+			"view own payments",
+		]);
+	}
 }
