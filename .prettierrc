@@ -2,5 +2,6 @@
 	"useTabs": true,
 	"tabWidth": 4,
 	"braceStyle": "1tbs",
-	"plugins": ["prettier-plugin-tailwindcss"]
+	"plugins": ["prettier-plugin-tailwindcss"],
+	"pluginSearchDirs": ["./node_modules"]
 }
