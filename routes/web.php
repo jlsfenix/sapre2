@@ -50,7 +50,7 @@ Route::resource("users", UserController::class)
 	->middleware(["auth", "verified"]);
 
 Route::resource("roles", RoleController::class)
-	->only(["index"])
+	->only(["index","show","edit"])
 	->middleware(["auth", "verified"]);
 
 require __DIR__ . "/auth.php";
