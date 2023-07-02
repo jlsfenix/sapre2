@@ -19,5 +19,5 @@ jobs:
               with:
                   # This part is also where you can pass other options, for example:
                   prettier_options: --write **/*.{ts,tsx,php}
-                  prettier_plugins: "@prettier/plugin-php prettier-plugin-tailwindcss"
+                  prettier_plugins: "@prettier/plugin-php"
                   github_token: ${{ secrets.GITHUB_TOKEN }}
