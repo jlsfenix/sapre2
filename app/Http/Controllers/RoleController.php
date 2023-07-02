@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 use Inertia\Inertia;
 use Inertia\Response;
+use Spatie\Permission\Models\Permission;
 
 class RoleController extends Controller {
 	/**
@@ -35,14 +36,17 @@ class RoleController extends Controller {
 	 * Display the specified resource.
 	 */
 	public function show(Role $role) {
-		//
+		$role->getAllPermissions();
+		return view(view:'roles.show', data: compact(var_name: 'role'));
 	}
 
 	/**
 	 * Show the form for editing the specified resource.
 	 */
 	public function edit(Role $role) {
-		//
+		$permissions = Permission::all(["id", "name"]);
+		$role->getAllPermissions();
+		return view(view:'roles.edit', data: compact(var_name: 'role', var_names: 'permissions'));
 	}
 
 	/**
