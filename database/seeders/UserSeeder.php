@@ -15,6 +15,7 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
+        
 
         //Se crean usuarios en base ded datos
         $contraseña = "123";

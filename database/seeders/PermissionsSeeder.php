@@ -17,6 +17,7 @@ class PermissionsSeeder extends Seeder
         
         app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
 
+        //Arreglo con permisos
         $arregloPermisos =[
             "create users",
             "view users",
