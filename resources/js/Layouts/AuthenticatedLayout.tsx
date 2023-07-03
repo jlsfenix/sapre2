@@ -1,12 +1,12 @@
 import type { PropsWithChildren, ReactNode } from "react";
-import type { User } from "@/types";
+import type { UserWithRoles } from "@/types";
 import NavBar from "./Partials/NavBar";
 
 export default function AuthenticatedLayout({
 	user,
 	header,
 	children,
-}: PropsWithChildren<{ user: User; header?: ReactNode }>) {
+}: PropsWithChildren<{ user: UserWithRoles; header?: ReactNode }>) {
 	return (
 		<div className="min-h-screen bg-white">
 			<NavBar user={user} />

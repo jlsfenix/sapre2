@@ -1,11 +1,14 @@
-import type { PageProps, Role } from "@/types";
+import type { PageProps, Permission, Role } from "@/types";
 
 import Header from "@/Components/Header";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { Head } from "@inertiajs/react";
 import { Check } from "lucide-react";
 
-export default function Role({ auth, role }: PageProps<{ role: Role }>) {
+export default function Role({
+	auth,
+	role,
+}: PageProps<{ role: Role & { permissions: Permission[] } }>) {
 	return (
 		<AuthenticatedLayout
 			user={auth.user}

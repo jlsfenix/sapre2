@@ -1,17 +1,20 @@
+import type { UserWithRoles } from "@/types";
+
+import { useState } from "react";
+import { Link } from "@inertiajs/react";
+import { Menu, X } from "lucide-react";
+
 import ApplicationLogo from "@/Components/ApplicationLogo";
 import NavLink from "@/Components/NavLink";
 import ResponsiveNavLink from "@/Components/ResponsiveNavLink";
 import UserNav from "@/Components/UserNav";
 import { Button } from "@/Components/ui/button";
-import { cn } from "@/lib/utils";
-import { User } from "@/types";
-import { Link } from "@inertiajs/react";
-import { Menu, X } from "lucide-react";
-import { useState } from "react";
+import { can, cn } from "@/lib/utils";
 
 const links: {
 	title: string;
 	href: string;
+	permission?: string;
 }[] = [
 	{
 		title: "Dashboard",
@@ -20,10 +23,12 @@ const links: {
 	{
 		title: "Usuarios",
 		href: "users.index",
+		permission: "view users",
 	},
 	{
 		title: "Roles",
 		href: "roles.index",
+		permission: "view roles",
 	},
 ];
 
@@ -31,11 +36,13 @@ function MobileMenu({
 	className,
 	user,
 	...props
-}: React.ComponentPropsWithoutRef<"nav"> & { user: User }) {
+}: React.ComponentPropsWithoutRef<"nav"> & { user: UserWithRoles }) {
 	return (
 		<nav className={cn("flex flex-col gap-4", className)} {...props}>
 			<ul className="flex-col gap-4">
-				{links.map(({ title, href }) => {
+				{links.map(({ title, href, permission }) => {
+					if (permission && !can(user, permission)) return null;
+
 					return (
 						<li key={href} className="">
 							<ResponsiveNavLink
@@ -82,7 +89,7 @@ export default function NavBar({
 	className,
 	user,
 	...props
-}: React.ComponentPropsWithoutRef<"nav"> & { user: User }) {
+}: React.ComponentPropsWithoutRef<"nav"> & { user: UserWithRoles }) {
 	const [showingNavigationDropdown, setShowingNavigationDropdown] =
 		useState(false);
 
@@ -99,7 +106,11 @@ export default function NavBar({
 
 						<div className="hidden sm:flex">
 							<ul className="flex items-center">
-								{links.map(({ title, href }) => {
+								{links.map(({ title, href, permission }) => {
+									if (permission && !can(user, permission)) {
+										return null;
+									}
+
 									return (
 										<li className="block" key={href}>
 											<NavLink
