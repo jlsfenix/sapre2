@@ -1,3 +1,5 @@
+const defaultTheme = require("tailwindcss/defaultTheme");
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
 	darkMode: ["class"],
@@ -8,6 +10,9 @@ module.exports = {
 		"./resources/js/**/*.tsx",
 	],
 	theme: {
+		fontFamily: {
+			heading: ["Karla Variable", ...defaultTheme.fontFamily.sans],
+		},
 		container: {
 			center: true,
 			padding: "2rem",
