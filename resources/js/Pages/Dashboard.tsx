@@ -11,9 +11,7 @@ export default function Dashboard({ auth }: PageProps) {
 		>
 			<Head title="Dashboard" />
 
-			<div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-				<div className="text-gray-900">You're logged in!</div>
-			</div>
+			<p>You're logged in!</p>
 		</AuthenticatedLayout>
 	);
 }

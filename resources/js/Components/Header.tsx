@@ -11,15 +11,15 @@ export default function Header({
 }) {
 	return (
 		<header className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-			<div>
-				<h2 className="text-2xl font-bold tracking-tight">{title}</h2>
+			<div className="space-y-2">
+				<h2 className="text-3xl font-bold tracking-tight">{title}</h2>
 
 				{description ? (
 					<p className="text-muted-foreground">{description}</p>
 				) : null}
 			</div>
 
-			{actions ? actions : null}
+			<div className="w-fit">{actions ? actions : null}</div>
 		</header>
 	);
 }

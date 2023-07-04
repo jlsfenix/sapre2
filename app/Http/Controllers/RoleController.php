@@ -39,7 +39,10 @@ class RoleController extends Controller {
 	 */
 	public function show(Role $role) {
 		$role->getAllPermissions();
-		return view(view: "roles.show", data: compact(var_name: "role"));
+
+		return Inertia::render("Roles/Role", [
+			"role" => $role,
+		]);
 	}
 
 	/**
