@@ -5,6 +5,7 @@ import { Head } from "@inertiajs/react";
 import { createColumnHelper } from "@tanstack/react-table";
 import { DataTableColumnHeader } from "@/Components/DataTableColumnHeader";
 import { DataTable } from "@/Components/DataTable";
+import { Button } from "@/Components/ui/button";
 
 const columnHelper = createColumnHelper<User>();
 
@@ -35,6 +36,7 @@ export default function Index({ auth, users }: PageProps<{ users: User[] }>) {
 				<Header
 					title="Usuarios"
 					description="Administra los usuarios registrados en el sistema."
+					actions={<Button>Crear usuario</Button>}
 				/>
 			}
 		>

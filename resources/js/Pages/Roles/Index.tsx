@@ -7,6 +7,7 @@ import { DataTableColumnHeader } from "@/Components/DataTableColumnHeader";
 import Header from "@/Components/Header";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { DataTableRowActions } from "./Partials/DataTableRowActions";
+import { Button } from "@/Components/ui/button";
 
 type DisplayRole = Pick<Role, "id" | "name">;
 
@@ -17,6 +18,7 @@ const columns: ColumnDef<DisplayRole>[] = [
 			<DataTableColumnHeader column={column} title="Nombre" />
 		),
 		cell: ({ row }) => row.getValue("name"),
+		enableHiding: false,
 	},
 	{
 		accessorKey: "id",
@@ -40,6 +42,7 @@ export default function Index({
 				<Header
 					title="Roles"
 					description="Administra los roles y sus permisos asignados en el sistema."
+					actions={<Button>Crear rol</Button>}
 				/>
 			}
 		>

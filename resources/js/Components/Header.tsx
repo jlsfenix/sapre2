@@ -19,7 +19,7 @@ export default function Header({
 				) : null}
 			</div>
 
-			{actions ? actions : null}
+			<div className="w-fit">{actions ? actions : null}</div>
 		</header>
 	);
 }
