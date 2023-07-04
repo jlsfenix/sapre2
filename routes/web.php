@@ -45,12 +45,14 @@ Route::middleware("auth")->group(function () {
 	);
 });
 
-Route::resource("users", UserController::class)
-	->only(["index"])
-	->middleware(["auth", "verified"]);
+Route::middleware("auth")->group(function () {
+	Route::get("/users", [UserController::class, "index"])
+		->name("users.index")
+		->middleware(["can:view users"]);
+});
 
-Route::resource("roles", RoleController::class)
-	->only(["index","show","edit"])
-	->middleware(["auth", "verified"]);
+Route::middleware(["auth", "can:view roles"])->group(function () {
+	Route::resource("roles", RoleController::class)->only(["index", "show"]);
+});
 
 require __DIR__ . "/auth.php";

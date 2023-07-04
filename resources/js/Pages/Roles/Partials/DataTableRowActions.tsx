@@ -10,7 +10,9 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from "@/Components/ui/dropdown-menu";
-import { Link } from "@inertiajs/react";
+import { Link, usePage } from "@inertiajs/react";
+import { PageProps } from "@/types";
+import { can, canDoAny } from "@/lib/utils";
 
 interface DataTableRowActionsProps<TData> {
 	row: Row<TData>;
@@ -19,6 +21,15 @@ interface DataTableRowActionsProps<TData> {
 export function DataTableRowActions<TData>({
 	row,
 }: DataTableRowActionsProps<TData>) {
+	const {
+		props: { auth },
+	} = usePage<PageProps>();
+
+	// In case user can't do any of the actions
+	if (!canDoAny(auth.user, ["view roles", "edit roles", "delete roles"])) {
+		return null;
+	}
+
 	return (
 		<DropdownMenu>
 			<DropdownMenuTrigger asChild>
@@ -32,24 +43,32 @@ export function DataTableRowActions<TData>({
 			</DropdownMenuTrigger>
 
 			<DropdownMenuContent align="end" className="w-[160px]">
-				<DropdownMenuItem asChild>
-					<Link href={route("roles.show", row.getValue("id"))}>
-						<Eye className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
-						Ver permisos
-					</Link>
-				</DropdownMenuItem>
+				{can(auth.user, "view roles") ? (
+					<DropdownMenuItem asChild>
+						<Link href={route("roles.show", row.getValue("id"))}>
+							<Eye className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
+							Ver permisos
+						</Link>
+					</DropdownMenuItem>
+				) : null}
 
-				<DropdownMenuItem>
-					<Pen className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
-					Editar
-				</DropdownMenuItem>
+				{can(auth.user, "edit roles") ? (
+					<DropdownMenuItem>
+						<Pen className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
+						Editar
+					</DropdownMenuItem>
+				) : null}
 
-				<DropdownMenuSeparator />
+				{can(auth.user, "delete roles") ? (
+					<>
+						<DropdownMenuSeparator />
 
-				<DropdownMenuItem>
-					<Trash className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
-					Eliminar
-				</DropdownMenuItem>
+						<DropdownMenuItem>
+							<Trash className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
+							Eliminar
+						</DropdownMenuItem>
+					</>
+				) : null}
 			</DropdownMenuContent>
 		</DropdownMenu>
 	);
