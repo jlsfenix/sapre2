@@ -49,15 +49,17 @@ class RoleController extends Controller {
 	 * Show the form for editing the specified resource.
 	 */
 	public function edit(Role $role) {
+		// Get all the permissions names
 		$permissions = Permission::all(["id", "name"])->sortBy("id");
+		$globalPermissions = $permissions->pluck("name")->toArray();
+
+		// Get the permissions names from the role
 		$role->getAllPermissions();
 
 		$rolePermissions = $role
 			->permissions()
 			->pluck("name")
 			->toArray();
-
-		$globalPermissions = $permissions->pluck("name")->toArray();
 
 		$mergePermissions = [];
 
@@ -68,7 +70,8 @@ class RoleController extends Controller {
 			);
 		}
 
-		return response([
+		return Inertia::render("Roles/Edit", [
+			"role" => $role,
 			"globalPermissions" => $globalPermissions,
 			"rolePermissions" => $mergePermissions,
 		]);

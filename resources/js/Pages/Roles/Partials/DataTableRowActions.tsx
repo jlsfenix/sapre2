@@ -53,9 +53,11 @@ export function DataTableRowActions<TData>({
 				) : null}
 
 				{can(auth.user, "edit roles") ? (
-					<DropdownMenuItem>
-						<Pen className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
-						Editar
+					<DropdownMenuItem asChild>
+						<Link href={route("roles.edit", row.getValue("id"))}>
+							<Pen className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
+							Editar
+						</Link>
 					</DropdownMenuItem>
 				) : null}
 

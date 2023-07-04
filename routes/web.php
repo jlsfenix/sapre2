@@ -51,8 +51,14 @@ Route::middleware("auth")->group(function () {
 		->middleware(["can:view users"]);
 });
 
-Route::middleware(["auth", "can:view roles"])->group(function () {
-	Route::resource("roles", RoleController::class)->only(["index", "show"]);
+Route::middleware("auth")->group(function () {
+	Route::resource("roles", RoleController::class)
+		->only(["index", "show"])
+		->middleware("can:view roles");
+
+	Route::resource("roles", RoleController::class)
+		->only(["edit", "update"])
+		->middleware("can:edit roles");
 });
 
 require __DIR__ . "/auth.php";
