@@ -1,31 +1,40 @@
 import type { PageProps, User } from "@/types";
+import type { ColumnDef } from "@tanstack/react-table";
+
+import { Head } from "@inertiajs/react";
 import Header from "@/Components/Header";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
-import { Head } from "@inertiajs/react";
-import { createColumnHelper } from "@tanstack/react-table";
 import { DataTableColumnHeader } from "@/Components/DataTableColumnHeader";
 import { DataTable } from "@/Components/DataTable";
 import { Button } from "@/Components/ui/button";
+import { DataTableRowActions } from "./Partials/DataTableRowActions";
 
-const columnHelper = createColumnHelper<User>();
-
-const columns = [
-	columnHelper.accessor("name", {
+const columns: ColumnDef<User>[] = [
+	{
+		accessorKey: "name",
 		header: ({ column }) => (
 			<DataTableColumnHeader column={column} title="Nombre" />
 		),
-		cell: (info) => <div>{info.getValue()}</div>,
-		enableSorting: true,
+		cell: ({ row }) => row.getValue("name"),
 		enableHiding: false,
-	}),
-	columnHelper.accessor("email", {
+	},
+	{
+		accessorKey: "email",
 		header: ({ column }) => (
 			<DataTableColumnHeader column={column} title="Email" />
 		),
-		cell: (info) => <div>{info.getValue()}</div>,
-		enableSorting: true,
+		cell: ({ row }) => row.getValue("email"),
 		enableHiding: false,
-	}),
+	},
+	{
+		accessorKey: "id",
+		header: "",
+		cell: ({ row }) => (
+			<div className="flex justify-end">
+				<DataTableRowActions row={row} />
+			</div>
+		),
+	},
 ];
 
 export default function Index({ auth, users }: PageProps<{ users: User[] }>) {
