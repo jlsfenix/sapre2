@@ -7,6 +7,7 @@ use Spatie\Permission\Models\Role;
 use Inertia\Inertia;
 use Inertia\Response;
 use Spatie\Permission\Models\Permission;
+use Illuminate\Support\Str;
 
 class RoleController extends Controller {
 	/**
@@ -22,6 +23,7 @@ class RoleController extends Controller {
 	 * Show the form for creating a new resource.
 	 */
 	public function create() {
+		return "hola mundo";
 		//
 	}
 
@@ -37,16 +39,36 @@ class RoleController extends Controller {
 	 */
 	public function show(Role $role) {
 		$role->getAllPermissions();
-		return view(view:'roles.show', data: compact(var_name: 'role'));
+		return view(view: "roles.show", data: compact(var_name: "role"));
 	}
 
 	/**
 	 * Show the form for editing the specified resource.
 	 */
 	public function edit(Role $role) {
-		$permissions = Permission::all(["id", "name"]);
+		$permissions = Permission::all(["id", "name"])->sortBy("id");
 		$role->getAllPermissions();
-		return view(view:'roles.edit', data: compact(var_name: 'role', var_names: 'permissions'));
+
+		$rolePermissions = $role
+			->permissions()
+			->pluck("name")
+			->toArray();
+
+		$globalPermissions = $permissions->pluck("name")->toArray();
+
+		$mergePermissions = [];
+
+		foreach ($globalPermissions as $index => $permissionsG) {
+			$mergePermissions[$permissionsG] = in_array(
+				$permissionsG,
+				$rolePermissions
+			);
+		}
+
+		return response([
+			"globalPermissions" => $globalPermissions,
+			"rolePermissions" => $mergePermissions,
+		]);
 	}
 
 	/**
