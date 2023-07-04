@@ -8,6 +8,7 @@ import Header from "@/Components/Header";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { DataTableRowActions } from "./Partials/DataTableRowActions";
 import { Button } from "@/Components/ui/button";
+import { can } from "@/lib/utils";
 
 type DisplayRole = Pick<Role, "id" | "name">;
 
@@ -42,7 +43,11 @@ export default function Index({
 				<Header
 					title="Roles"
 					description="Administra los roles y sus permisos asignados en el sistema."
-					actions={<Button>Crear rol</Button>}
+					actions={
+						can(auth.user, "create roles") ? (
+							<Button>Crear rol</Button>
+						) : null
+					}
 				/>
 			}
 		>
