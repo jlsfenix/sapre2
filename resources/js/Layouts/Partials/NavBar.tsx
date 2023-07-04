@@ -1,8 +1,8 @@
 import type { UserWithRoles } from "@/types";
 
 import { useState } from "react";
-import { Link } from "@inertiajs/react";
-import { Menu, X } from "lucide-react";
+import { Link, usePage } from "@inertiajs/react";
+import { Menu as MenuIcon, X } from "lucide-react";
 
 import ApplicationLogo from "@/Components/ApplicationLogo";
 import NavLink from "@/Components/NavLink";
@@ -15,6 +15,7 @@ const links: {
 	title: string;
 	href: string;
 	permission?: string;
+	baseRoute?: string;
 }[] = [
 	{
 		title: "Dashboard",
@@ -24,30 +25,74 @@ const links: {
 		title: "Usuarios",
 		href: "users.index",
 		permission: "view users",
+		baseRoute: "/users",
 	},
 	{
 		title: "Roles",
 		href: "roles.index",
 		permission: "view roles",
+		baseRoute: "/roles",
 	},
 ];
+
+function Menu({
+	className,
+	user,
+	...props
+}: React.ComponentPropsWithoutRef<"ul"> & {
+	user: UserWithRoles;
+}) {
+	const { url } = usePage();
+
+	return (
+		<ul className={cn("flex items-center", className)} {...props}>
+			{links.map(({ title, href, permission, baseRoute }) => {
+				if (permission && !can(user, permission)) {
+					return null;
+				}
+
+				return (
+					<li className="block" key={href}>
+						<NavLink
+							className="px-2 py-4"
+							href={route(href)}
+							active={
+								baseRoute
+									? url.startsWith(baseRoute)
+									: route().current(href)
+							}
+						>
+							{title}
+						</NavLink>
+					</li>
+				);
+			})}
+		</ul>
+	);
+}
 
 function MobileMenu({
 	className,
 	user,
 	...props
-}: React.ComponentPropsWithoutRef<"nav"> & { user: UserWithRoles }) {
+}: React.ComponentPropsWithoutRef<"div"> & { user: UserWithRoles }) {
+	const { url } = usePage();
+
 	return (
-		<nav className={cn("flex flex-col gap-4", className)} {...props}>
+		<div className={cn("flex flex-col gap-4", className)} {...props}>
 			<ul className="flex-col gap-4">
-				{links.map(({ title, href, permission }) => {
+				{links.map(({ title, href, permission, baseRoute }) => {
 					if (permission && !can(user, permission)) return null;
 
 					return (
-						<li key={href} className="">
+						<li key={href}>
 							<ResponsiveNavLink
 								href={route(href)}
-								active={route().current(href)}
+								active={
+									baseRoute
+										? url.startsWith(baseRoute)
+										: route().current(href)
+								}
 							>
 								{title}
 							</ResponsiveNavLink>
@@ -81,7 +126,7 @@ function MobileMenu({
 					</ResponsiveNavLink>
 				</div>
 			</div>
-		</nav>
+		</div>
 	);
 }
 
@@ -105,25 +150,7 @@ export default function NavBar({
 						</div>
 
 						<div className="hidden sm:flex">
-							<ul className="flex items-center">
-								{links.map(({ title, href, permission }) => {
-									if (permission && !can(user, permission)) {
-										return null;
-									}
-
-									return (
-										<li className="block" key={href}>
-											<NavLink
-												className="px-2 py-4"
-												href={route(href)}
-												active={route().current(href)}
-											>
-												{title}
-											</NavLink>
-										</li>
-									);
-								})}
-							</ul>
+							<Menu user={user} />
 						</div>
 					</div>
 
@@ -146,7 +173,7 @@ export default function NavBar({
 							{showingNavigationDropdown ? (
 								<X className="h-4 w-4" />
 							) : (
-								<Menu className="h-4 w-4" />
+								<MenuIcon className="h-4 w-4" />
 							)}
 						</Button>
 					</div>
