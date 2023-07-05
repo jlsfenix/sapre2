@@ -31,7 +31,34 @@ class RoleController extends Controller {
 	 * Store a newly created resource in storage.
 	 */
 	public function store(Request $request) {
-		//
+		$permissions = Permission::all()->pluck("name");
+
+		$rules = [
+			"name" => [
+				"required","max:255",'unique:roles'
+			],
+		];
+
+		// Add permission names to rules
+		foreach ($permissions as $permission) {
+			$rules[$permission] = "required|boolean";
+		}
+		
+		$validated = $request->validate($rules);
+
+		$role = new Role();
+		$role->name = $validated['name'];
+
+
+		foreach ($permissions as $permission) {
+			if ($validated[$permission]) {
+				$role->givePermissionTo($permission);
+			}
+		}
+
+		$role->save();
+
+		return redirect(route("roles.index"));
 	}
 
 	/**
