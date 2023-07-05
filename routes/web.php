@@ -59,6 +59,10 @@ Route::middleware("auth")->group(function () {
 	Route::resource("roles", RoleController::class)
 		->only(["edit", "update"])
 		->middleware("can:edit roles");
+
+	Route::resource("roles", RoleController::class)
+		->only(["destroy"])
+		->middleware("can:delete roles");
 });
 
 require __DIR__ . "/auth.php";
