@@ -23,7 +23,6 @@ class RoleController extends Controller {
 	 * Show the form for creating a new resource.
 	 */
 	public function create() {
-		return "hola mundo";
 		//
 	}
 
@@ -38,17 +37,6 @@ class RoleController extends Controller {
 	 * Display the specified resource.
 	 */
 	public function show(Role $role) {
-		$role->getAllPermissions();
-
-		return Inertia::render("Roles/Role", [
-			"role" => $role,
-		]);
-	}
-
-	/**
-	 * Show the form for editing the specified resource.
-	 */
-	public function edit(Role $role) {
 		// Get all the permissions names
 		$permissions = Permission::all(["id", "name"])->sortBy("id");
 		$globalPermissions = $permissions->pluck("name")->toArray();
@@ -70,7 +58,7 @@ class RoleController extends Controller {
 			);
 		}
 
-		return Inertia::render("Roles/Edit", [
+		return Inertia::render("Roles/Role", [
 			"role" => $role,
 			"globalPermissions" => $globalPermissions,
 			"rolePermissions" => $mergePermissions,
@@ -78,10 +66,44 @@ class RoleController extends Controller {
 	}
 
 	/**
+	 * Show the form for editing the specified resource.
+	 */
+	public function edit(Role $role) {
+		//
+	}
+
+	/**
 	 * Update the specified resource in storage.
 	 */
 	public function update(Request $request, Role $role) {
-		//
+		$permissions = Permission::all()->pluck("name");
+
+		$rules = [
+			"name" => "required|max:255",
+		];
+
+		// Add permission names to rules
+		foreach ($permissions as $permission) {
+			$rules[$permission] = "required|boolean";
+		}
+
+		$validated = $request->validate($rules);
+
+		// Update name
+		$role->update([
+			"name" => $validated["name"],
+		]);
+
+		// Update role permissions
+		foreach ($permissions as $permission) {
+			if ($validated[$permission]) {
+				$role->givePermissionTo($permission);
+			} else {
+				$role->revokePermissionTo($permission);
+			}
+		}
+
+		return redirect(route("roles.show", $role));
 	}
 
 	/**
