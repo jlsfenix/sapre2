@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Spatie\Permission\Models\Role;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -79,7 +80,11 @@ class RoleController extends Controller {
 		$permissions = Permission::all()->pluck("name");
 
 		$rules = [
-			"name" => "required|max:255",
+			"name" => [
+				"required",
+				"max:255",
+				Rule::unique("roles")->ignore($role->id),
+			],
 		];
 
 		// Add permission names to rules
