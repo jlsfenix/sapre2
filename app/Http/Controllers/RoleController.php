@@ -24,7 +24,18 @@ class RoleController extends Controller {
 	 * Show the form for creating a new resource.
 	 */
 	public function create() {
-		//
+		$permissions = Permission::all()->pluck("name");
+		$rolePermissions = [];
+
+		// Set each permission as false
+		foreach ($permissions as $permission) {
+			$rolePermissions[$permission] = false;
+		}
+
+		return Inertia::render("Roles/Create", [
+			"permissions" => $permissions,
+			"rolePermissions" => $rolePermissions,
+		]);
 	}
 
 	/**
@@ -34,22 +45,20 @@ class RoleController extends Controller {
 		$permissions = Permission::all()->pluck("name");
 
 		$rules = [
-			"name" => [
-				"required","max:255",'unique:roles'
-			],
+			"name" => ["required", "max:255", "unique:roles"],
 		];
 
 		// Add permission names to rules
 		foreach ($permissions as $permission) {
 			$rules[$permission] = "required|boolean";
 		}
-		
+
 		$validated = $request->validate($rules);
 
 		$role = new Role();
-		$role->name = $validated['name'];
+		$role->name = $validated["name"];
 
-
+		// Assign each selected permission to role
 		foreach ($permissions as $permission) {
 			if ($validated[$permission]) {
 				$role->givePermissionTo($permission);

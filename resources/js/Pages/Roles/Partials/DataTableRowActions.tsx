@@ -47,7 +47,7 @@ export function DataTableRowActions<TData>({
 					<DropdownMenuItem asChild>
 						<Link href={route("roles.show", row.getValue("id"))}>
 							<Eye className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
-							Ver permisos
+							Ver
 						</Link>
 					</DropdownMenuItem>
 				) : null}

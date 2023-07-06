@@ -145,7 +145,7 @@ export default function Role({
 									</Button>
 
 									<Button disabled={processing}>
-										Actualizar rol
+										Actualizar
 									</Button>
 								</>
 							) : (

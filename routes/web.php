@@ -53,6 +53,10 @@ Route::middleware("auth")->group(function () {
 
 Route::middleware("auth")->group(function () {
 	Route::resource("roles", RoleController::class)
+		->only(["create", "store"])
+		->middleware("can:create roles");
+
+	Route::resource("roles", RoleController::class)
 		->only(["index", "show"])
 		->middleware("can:view roles");
 

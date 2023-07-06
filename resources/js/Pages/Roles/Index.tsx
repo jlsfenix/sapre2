@@ -1,7 +1,7 @@
 import type { PageProps, Role } from "@/types";
 import type { ColumnDef } from "@tanstack/react-table";
 
-import { Head } from "@inertiajs/react";
+import { Head, Link } from "@inertiajs/react";
 import { DataTable } from "@/Components/DataTable";
 import { DataTableColumnHeader } from "@/Components/DataTableColumnHeader";
 import Header from "@/Components/Header";
@@ -45,7 +45,11 @@ export default function Index({
 					description="Administra los roles y sus permisos asignados en el sistema."
 					actions={
 						can(auth.user, "create roles") ? (
-							<Button>Crear rol</Button>
+							<Button asChild>
+								<Link href={route("roles.create")}>
+									Crear rol
+								</Link>
+							</Button>
 						) : null
 					}
 				/>
