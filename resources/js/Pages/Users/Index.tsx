@@ -9,9 +9,21 @@ import { DataTable } from "@/Components/DataTable";
 import { Button } from "@/Components/ui/button";
 import { DataTableRowActions } from "./Partials/DataTableRowActions";
 import { can } from "@/lib/utils";
+import { Badge } from "@/Components/ui/badge";
+
+type UserDisplay = User & {
+	roles: {
+		name: string;
+		pivot: {
+			model_id: number;
+			role_id: number;
+			model_type: string;
+		};
+	}[];
+};
 
 // The columns to display
-const columns: ColumnDef<User>[] = [
+const columns: ColumnDef<UserDisplay>[] = [
 	{
 		accessorKey: "name",
 		header: ({ column }) => (
@@ -29,6 +41,29 @@ const columns: ColumnDef<User>[] = [
 		enableHiding: false,
 	},
 	{
+		accessorKey: "roles",
+		header: ({ column }) => (
+			<DataTableColumnHeader column={column} title="Roles" />
+		),
+		cell: ({ row }) => {
+			const roles = row.getValue("roles") as UserDisplay["roles"];
+
+			return (
+				<div className="flex gap-2">
+					{roles.map((role) => {
+						return (
+							<Badge key={role.name} variant="outline">
+								{role.name}
+							</Badge>
+						);
+					})}
+				</div>
+			);
+		},
+		enableSorting: false,
+		enableHiding: false,
+	},
+	{
 		accessorKey: "id",
 		header: "",
 		cell: ({ row }) => (
@@ -39,7 +74,12 @@ const columns: ColumnDef<User>[] = [
 	},
 ];
 
-export default function Index({ auth, users }: PageProps<{ users: User[] }>) {
+export default function Index({
+	auth,
+	users,
+}: PageProps<{ users: UserDisplay[] }>) {
+	console.log(users);
+
 	return (
 		<AuthenticatedLayout
 			user={auth.user}
