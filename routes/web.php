@@ -46,13 +46,17 @@ Route::middleware("auth")->group(function () {
 });
 
 Route::middleware("auth")->group(function () {
+	Route::resource("users", UserController::class)
+		->only(["create", "store"])
+		->middleware("can:create users");
+
 	Route::get("/users", [UserController::class, "index"])
 		->name("users.index")
 		->middleware(["can:view users"]);
 
 	Route::resource("users", UserController::class)
-		->only(["create", "store"])
-		->middleware("can:create users");
+		->only(["edit", "update"])
+		->middleware("can:edit users");
 
 	Route::resource("users", UserController::class)
 		->only(["destroy"])

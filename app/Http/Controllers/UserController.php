@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Auth;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Spatie\Permission\Models\Role;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -15,7 +17,9 @@ class UserController extends Controller {
 	 */
 	public function index(): Response {
 		return Inertia::render("Users/Index", [
-			"users" => User::with("roles:name")->get(),
+			"users" => User::with("roles:name")
+				->get()
+				->except(Auth::id()),
 		]);
 	}
 
@@ -56,15 +60,26 @@ class UserController extends Controller {
 	/**
 	 * Display the specified resource.
 	 */
-	public function show(User $role) {
-		//
+	public function show(User $user) {
 	}
 
 	/**
 	 * Show the form for editing the specified resource.
 	 */
-	public function edit(User $role) {
-		//
+	public function edit(User $user) {
+		// Get all the roles and user roles
+		$roles = Role::all()->pluck("name");
+
+		$userRoles = $user
+			->roles()
+			->get()
+			->pluck("name");
+
+		return Inertia::render("Users/Edit", [
+			"user" => $user,
+			"userRole" => $userRoles[0],
+			"roles" => $roles,
+		]);
 	}
 
 	/**
@@ -73,7 +88,11 @@ class UserController extends Controller {
 	public function update(Request $request, User $user) {
 		$request->validate([
 			"name" => "required|max:255",
-			"email" => "required|email|unique:users",
+			"email" => [
+				"required",
+				"email",
+				Rule::unique("users")->ignore($user->id),
+			],
 			"role" => "required|exists:roles,name",
 		]);
 
@@ -95,6 +114,5 @@ class UserController extends Controller {
 		$user->delete();
 
 		return redirect(route("users.index"));
-		//
 	}
 }

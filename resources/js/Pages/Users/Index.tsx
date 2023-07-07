@@ -78,8 +78,6 @@ export default function Index({
 	auth,
 	users,
 }: PageProps<{ users: UserDisplay[] }>) {
-	console.log(users);
-
 	return (
 		<AuthenticatedLayout
 			user={auth.user}
