@@ -73,20 +73,19 @@ class UserController extends Controller {
 	public function update(Request $request, User $user) {
 		$request->validate([
 			"name" => "required|max:255",
-			"email" => "required|unique:users",
-			"password" => "required",
+			"email" => "required|email|unique:users",
 			"role" => "required|exists:roles,name",
 		]);
 
-		$user->name = $request->name;
-		$user->email = $request->email;
-		$user->password = Hash::make($request->password);
-		$user->syncRoles($request->role);
+		// Update user info and its role
+		$user->update([
+			"name" => $request["name"],
+			"email" => $request["email"],
+		]);
 
-		$user->save();
+		$user->syncRoles($request["role"]);
 
 		return redirect(route("users.index"));
-		//
 	}
 
 	/**
