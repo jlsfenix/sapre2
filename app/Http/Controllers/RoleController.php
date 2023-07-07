@@ -8,7 +8,6 @@ use Spatie\Permission\Models\Role;
 use Inertia\Inertia;
 use Inertia\Response;
 use Spatie\Permission\Models\Permission;
-use Illuminate\Support\Str;
 
 class RoleController extends Controller {
 	/**

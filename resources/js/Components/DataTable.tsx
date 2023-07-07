@@ -1,4 +1,7 @@
 import * as React from "react";
+
+import { Table as TableType } from "@tanstack/react-table";
+
 import {
 	ColumnDef,
 	ColumnFiltersState,
@@ -25,15 +28,23 @@ import {
 
 import { DataTablePagination } from "./DataTablePagination";
 
-interface DataTableProps<TData, TValue> {
+interface DataTableProps<TData, TValue, ToolbarProps> {
 	columns: ColumnDef<TData, TValue>[];
 	data: TData[];
+	toolbarProps?: ToolbarProps;
+	Toolbar?: (
+		props:
+			| (ToolbarProps & { table: TableType<TData> })
+			| { table: TableType<TData> }
+	) => React.ReactNode;
 }
 
-export function DataTable<TData, TValue>({
+export function DataTable<TData, TValue, ToolbarProps>({
 	columns,
 	data,
-}: DataTableProps<TData, TValue>) {
+	toolbarProps,
+	Toolbar,
+}: DataTableProps<TData, TValue, ToolbarProps>) {
 	const [columnVisibility, setColumnVisibility] =
 		React.useState<VisibilityState>({});
 
@@ -63,6 +74,8 @@ export function DataTable<TData, TValue>({
 
 	return (
 		<div className="space-y-4">
+			{Toolbar ? <Toolbar table={table} {...toolbarProps} /> : null}
+
 			<div className="rounded-md border">
 				<Table className="relative">
 					<TableHeader>

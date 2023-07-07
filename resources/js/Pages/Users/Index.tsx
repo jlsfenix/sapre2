@@ -10,6 +10,7 @@ import { Button } from "@/Components/ui/button";
 import { DataTableRowActions } from "./Partials/DataTableRowActions";
 import { can } from "@/lib/utils";
 import { Badge } from "@/Components/ui/badge";
+import { DataTableToolbar } from "./Partials/DataTableToolbar";
 
 type UserDisplay = User & {
 	roles: {
@@ -99,7 +100,11 @@ export default function Index({
 		>
 			<Head title="Usuarios" />
 
-			<DataTable data={users} columns={columns} />
+			<DataTable
+				data={users}
+				columns={columns}
+				Toolbar={DataTableToolbar}
+			/>
 		</AuthenticatedLayout>
 	);
 }
