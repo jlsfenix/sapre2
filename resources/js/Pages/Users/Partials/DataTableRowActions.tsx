@@ -25,8 +25,13 @@ export function DataTableRowActions<TData>({
 		props: { auth },
 	} = usePage<PageProps>();
 
+	const userId: number = row.getValue("id");
+
 	// In case user can't do any of the actions
-	if (!canDoAny(auth.user, ["edit users", "delete users"])) {
+	if (
+		!canDoAny(auth.user, ["edit users", "delete users"]) ||
+		auth.user.id === userId
+	) {
 		return null;
 	}
 
@@ -45,7 +50,7 @@ export function DataTableRowActions<TData>({
 			<DropdownMenuContent align="end" className="w-[160px]">
 				{can(auth.user, "edit users") ? (
 					<DropdownMenuItem asChild>
-						<Link href={route("users.edit", row.getValue("id"))}>
+						<Link href={route("users.edit", userId)}>
 							<Pen className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
 							Editar
 						</Link>
@@ -60,10 +65,7 @@ export function DataTableRowActions<TData>({
 							<Link
 								className="w-full"
 								as="button"
-								href={route(
-									"users.destroy",
-									row.getValue("id")
-								)}
+								href={route("users.destroy", userId)}
 								method="delete"
 							>
 								<Trash className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />

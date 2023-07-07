@@ -17,9 +17,7 @@ class UserController extends Controller {
 	 */
 	public function index(): Response {
 		return Inertia::render("Users/Index", [
-			"users" => User::with("roles:name")
-				->get()
-				->except(Auth::id()),
+			"users" => User::with("roles:name")->get(),
 		]);
 	}
 
@@ -111,7 +109,10 @@ class UserController extends Controller {
 	 * Remove the specified resource from storage.
 	 */
 	public function destroy(User $user) {
-		$user->delete();
+		// Avoid user own deletion
+		if ($user->id !== Auth::id()) {
+			$user->delete();
+		}
 
 		return redirect(route("users.index"));
 	}

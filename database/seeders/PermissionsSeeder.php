@@ -85,7 +85,6 @@ class PermissionsSeeder extends Seeder {
 
 		Role::create(["name" => "employee"])->givePermissionTo([
 			// Users
-			"create users",
 			"view users",
 
 			// Loans
