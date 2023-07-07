@@ -27,7 +27,7 @@ export function DataTableToolbar<TData>({
 							.getColumn("name")
 							?.setFilterValue(event.target.value)
 					}
-					className="w-full sm:max-w-xs"
+					className="h-8 w-full sm:max-w-xs"
 				/>
 
 				{isFiltered && (
@@ -36,7 +36,7 @@ export function DataTableToolbar<TData>({
 						onClick={() => table.resetColumnFilters()}
 						className="h-8 px-2 lg:px-3"
 					>
-						Reset
+						Reiniciar
 						<X className="ml-2 h-4 w-4" />
 					</Button>
 				)}
