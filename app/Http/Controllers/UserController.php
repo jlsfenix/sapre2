@@ -23,40 +23,34 @@ class UserController extends Controller {
 	 * Show the form for creating a new resource.
 	 */
 	public function create() {
-		//
+		$roles = Role::all()->pluck("name");
+
+		return Inertia::render("Users/Create", [
+			"roles" => $roles,
+		]);
 	}
 
 	/**
 	 * Store a newly created resource in storage.
 	 */
 	public function store(Request $request) {
-		$role = Role::all()->pluck("name");
-
 		$validate = $request->validate([
 			"name" => "required|max:255",
-			"email" => "required|unique:users",
-			"password" => "required",
+			"email" => "required|email|unique:users",
+			"password" => "required|min:8|max:255",
 			"role" => "required|exists:roles,name",
 		]);
 
-		//creación del usuario
+		// Create the user and assign its role
 		$user = User::create([
 			"name" => $validate["name"],
-			"email" => Hash::make($validate["email"]),
-			"password" => $validate["password"],
+			"email" => $validate["email"],
+			"password" => Hash::make($validate["password"]),
 		]);
 
-		//asignación de los permisos
-		$user->roles()->sync($validate["role"]);
+		$user->assignRole($validate["role"]);
 
-		$user->save();
-
-		//dd($validate);
-		return redirect(route("users.index"))->with(
-			"Suscess",
-			"sussesfully created"
-		);
-		//
+		return redirect(route("users.index"));
 	}
 
 	/**

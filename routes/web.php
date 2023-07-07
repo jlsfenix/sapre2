@@ -49,6 +49,14 @@ Route::middleware("auth")->group(function () {
 	Route::get("/users", [UserController::class, "index"])
 		->name("users.index")
 		->middleware(["can:view users"]);
+
+	Route::resource("users", UserController::class)
+		->only(["create", "store"])
+		->middleware("can:create users");
+
+	Route::resource("users", UserController::class)
+		->only(["destroy"])
+		->middleware("can:delete users");
 });
 
 Route::middleware("auth")->group(function () {

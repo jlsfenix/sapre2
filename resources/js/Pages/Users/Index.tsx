@@ -1,7 +1,7 @@
 import type { PageProps, User } from "@/types";
 import type { ColumnDef } from "@tanstack/react-table";
 
-import { Head } from "@inertiajs/react";
+import { Head, Link } from "@inertiajs/react";
 import Header from "@/Components/Header";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import { DataTableColumnHeader } from "@/Components/DataTableColumnHeader";
@@ -49,7 +49,11 @@ export default function Index({ auth, users }: PageProps<{ users: User[] }>) {
 					description="Administra los usuarios registrados en el sistema."
 					actions={
 						can(auth.user, "create users") ? (
-							<Button>Crear usuario</Button>
+							<Button asChild>
+								<Link href={route("users.create")}>
+									Crear usuario
+								</Link>
+							</Button>
 						) : null
 					}
 				/>

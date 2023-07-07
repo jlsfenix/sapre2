@@ -10,7 +10,7 @@ import {
 	DropdownMenuSeparator,
 	DropdownMenuTrigger,
 } from "@/Components/ui/dropdown-menu";
-import { usePage } from "@inertiajs/react";
+import { Link, usePage } from "@inertiajs/react";
 import { PageProps } from "@/types";
 import { can, canDoAny } from "@/lib/utils";
 
@@ -54,9 +54,19 @@ export function DataTableRowActions<TData>({
 					<>
 						<DropdownMenuSeparator />
 
-						<DropdownMenuItem>
-							<Trash className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
-							Eliminar
+						<DropdownMenuItem asChild>
+							<Link
+								className="w-full"
+								as="button"
+								href={route(
+									"users.destroy",
+									row.getValue("id")
+								)}
+								method="delete"
+							>
+								<Trash className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
+								Eliminar
+							</Link>
 						</DropdownMenuItem>
 					</>
 				) : null}
